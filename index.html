@@ -15,63 +15,39 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
-body{
-  background:#0a0a0a;color:#fff;font-family:var(--font-body);
-  display:flex;align-items:center;justify-content:center;
-  min-height:100dvh;overflow:hidden;font-feature-settings:"palt";
-  -webkit-font-smoothing:antialiased;
-}
+body{background:#0a0a0a;color:#fff;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;
+  min-height:100dvh;overflow:hidden;font-feature-settings:"palt";-webkit-font-smoothing:antialiased;}
 img{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
 
-/* ===== Story shell ===== */
-.story{
-  position:relative;width:100%;max-width:440px;height:100dvh;
-  overflow:hidden;background:#000;user-select:none;touch-action:pan-y;
-}
-@media(min-width:480px){
-  body{padding:20px;}
-  .story{height:min(100dvh,900px);border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.55);}
-}
+.story{position:relative;width:100%;max-width:440px;height:100dvh;overflow:hidden;background:#000;user-select:none;touch-action:pan-y;}
+@media(min-width:480px){body{padding:20px;}.story{height:min(100dvh,900px);border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.55);}}
 
-/* ===== Progress ===== */
-.progress{
-  position:absolute;top:0;left:0;right:0;z-index:30;
-  display:flex;gap:5px;padding:14px 14px 0;
-}
+/* progress */
+.progress{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;gap:5px;padding:14px 14px 0;}
 .seg{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.28);overflow:hidden;}
-.seg .fill{
-  display:block;width:100%;height:100%;background:#fff;border-radius:3px;
-  transform:scaleX(0);transform-origin:left center;
-}
-.story.paused .seg .fill{animation-play-state:paused!important;}
-@keyframes segfill{from{transform:scaleX(0);}to{transform:scaleX(1);}}
-/* progress on light slides */
+.seg .fill{display:block;width:100%;height:100%;background:#fff;border-radius:3px;transform:scaleX(0);transform-origin:left center;transition:transform .35s var(--ease);}
 .story[data-theme="light"] .seg{background:rgba(20,20,20,.18);}
 .story[data-theme="light"] .seg .fill{background:var(--ink);}
 
-/* ===== Brand mark (top) ===== */
-.story-brand{
-  position:absolute;top:30px;left:18px;z-index:25;
-  font-family:var(--font-en);font-size:10px;letter-spacing:.22em;font-weight:600;
-  text-transform:uppercase;color:rgba(255,255,255,.7);pointer-events:none;
-}
+/* top bar: brand + persistent CTA */
+.story-brand{position:absolute;top:30px;left:18px;z-index:25;font-family:var(--font-en);font-size:10px;letter-spacing:.22em;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.7);pointer-events:none;}
 .story[data-theme="light"] .story-brand{color:rgba(20,20,20,.5);}
+.cta-pill{position:absolute;top:24px;right:14px;z-index:26;background:var(--terra);color:#fff;font-size:11px;font-weight:700;
+  padding:8px 14px;border-radius:100px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(224,90,50,.4);}
+.cta-pill .ar{font-family:var(--font-en);}
 
-/* ===== Slides ===== */
+.nav-edge{position:absolute;top:0;bottom:0;width:30px;z-index:20;display:none;align-items:center;justify-content:center;font-family:var(--font-en);color:rgba(255,255,255,0);transition:color .2s;}
+@media(min-width:480px){.nav-edge{display:flex;}.story:hover .nav-edge{color:rgba(255,255,255,.4);}}
+.nav-edge.left{left:2px;}.nav-edge.right{right:2px;}
+
+/* slides */
 .slides{position:absolute;inset:0;}
-.slide{
-  position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
-  padding:88px 32px 92px;opacity:0;visibility:hidden;
-  transition:opacity .45s var(--ease);
-}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:92px 32px 96px;opacity:0;visibility:hidden;transition:opacity .45s var(--ease);}
 .slide.active{opacity:1;visibility:visible;}
-.slide::after{content:"";position:absolute;inset:0;pointer-events:none;}
 .slide.light{color:var(--ink);}
-
-/* slide backgrounds */
-.bg-fv{background:radial-gradient(120% 90% at 70% 10%,#1a7085 0%,#0e4e5f 45%,#08333f 100%);}
+.bg-fv{background:radial-gradient(120% 90% at 70% 8%,#1a7085 0%,#0e4e5f 45%,#08333f 100%);}
 .bg-dark{background:#141414;}
 .bg-darkteal{background:linear-gradient(160deg,#0e4e5f,#08333f);}
 .bg-teal{background:linear-gradient(160deg,#1a7085,#0e4e5f);}
@@ -79,97 +55,110 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 .bg-light{background:var(--bg);}
 .bg-cta{background:radial-gradient(120% 90% at 50% 0%,#1a7085 0%,#0e4e5f 55%,#08333f 100%);}
 
-/* slide pieces */
-.s-kicker{
-  font-family:var(--font-en);font-size:11px;letter-spacing:.2em;font-weight:600;
-  text-transform:uppercase;margin-bottom:18px;display:inline-flex;align-items:center;gap:10px;opacity:.85;
-}
+.s-kicker{font-family:var(--font-en);font-size:11px;letter-spacing:.2em;font-weight:600;text-transform:uppercase;margin-bottom:18px;display:inline-flex;align-items:center;gap:10px;opacity:.85;}
 .s-kicker::before{content:"";width:24px;height:2px;background:currentColor;}
 .slide.light .s-kicker{color:var(--teal);}
-.s-title{
-  font-family:var(--font-heading);font-weight:800;line-height:1.32;letter-spacing:-.02em;
-  font-size:clamp(28px,8.5vw,40px);
-}
+.s-title{font-family:var(--font-heading);font-weight:800;line-height:1.34;letter-spacing:-.02em;font-size:clamp(28px,8.4vw,40px);}
 .s-title .ac{color:var(--terra);}
-.slide.bg-terra .s-title .ac,.slide.bg-teal .s-title .ac{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.6);text-underline-offset:6px;}
+.slide.bg-terra .s-title .ac,.slide.bg-teal .s-title .ac{color:#fff;}
 .s-sub{font-size:15px;line-height:2;margin-top:20px;opacity:.92;max-width:340px;}
 .slide.light .s-sub{color:var(--sub);}
+.s-quote{margin-top:26px;padding:16px 18px;border-left:3px solid rgba(255,255,255,.7);font-size:14px;line-height:1.7;font-weight:600;background:rgba(255,255,255,.1);border-radius:0 6px 6px 0;}
+
 .s-list{list-style:none;margin-top:26px;display:flex;flex-direction:column;gap:14px;}
-.s-list li{font-size:17px;font-weight:600;line-height:1.5;display:flex;gap:12px;align-items:flex-start;}
-.s-list li::before{content:"";flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--terra);
-  color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.s-list li{font-size:16px;font-weight:600;line-height:1.5;display:flex;gap:12px;align-items:flex-start;}
+.s-list li::before{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--terra);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px;}
 .s-list li:nth-child(1)::before{content:"1";}
 .s-list li:nth-child(2)::before{content:"2";}
 .s-list li:nth-child(3)::before{content:"3";}
 
-/* metrics slide */
-.metrics{display:flex;flex-direction:column;gap:26px;margin-top:8px;}
-.metric .mlabel{font-family:var(--font-en);font-size:10px;letter-spacing:.15em;text-transform:uppercase;opacity:.6;}
-.metric .mval{font-family:var(--font-heading);font-weight:800;font-size:clamp(44px,15vw,62px);line-height:1;letter-spacing:-.03em;display:flex;align-items:baseline;gap:4px;}
-.metric .mval .u{font-family:var(--font-body);font-size:.34em;font-weight:600;opacity:.9;}
-.s-note{font-size:11px;opacity:.55;margin-top:24px;}
+/* trust slide */
+.metrics-row{display:flex;gap:14px;margin:8px 0 24px;}
+.metrics-row .metric{flex:1;}
+.metrics-row .mlabel{font-family:var(--font-en);font-size:8px;letter-spacing:.1em;text-transform:uppercase;opacity:.55;margin-bottom:2px;}
+.metrics-row .mval{font-family:var(--font-heading);font-weight:800;font-size:clamp(28px,8.5vw,38px);line-height:1;letter-spacing:-.03em;color:var(--teal);display:flex;align-items:baseline;gap:2px;}
+.metrics-row .mval .u{font-family:var(--font-body);font-size:.3em;font-weight:700;color:var(--ink);}
+.trust-label{font-family:var(--font-en);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--sub);margin-bottom:14px;display:flex;align-items:center;gap:10px;}
+.trust-label::before{content:"";width:18px;height:1px;background:var(--sub);}
+.logo-grid{display:flex;flex-direction:column;gap:13px;align-items:flex-start;}
+.logo-grid img{height:24px;width:auto;object-fit:contain;}
+.s-note{font-size:11px;opacity:.55;margin-top:18px;}
+.slide.light .s-note{color:var(--sub);opacity:1;}
 
-/* big stat (case / price) */
-.bigstat{font-family:var(--font-heading);font-weight:800;letter-spacing:-.03em;line-height:1;
-  font-size:clamp(56px,19vw,84px);display:flex;align-items:baseline;gap:6px;margin:10px 0 4px;}
-.bigstat .u{font-size:.3em;font-weight:700;}
-.slide.light .bigstat{color:var(--terra);}
+/* big stat */
+.bigstat{font-family:var(--font-heading);font-weight:800;letter-spacing:-.03em;line-height:1;font-size:clamp(54px,18vw,80px);display:flex;align-items:baseline;gap:6px;margin:8px 0 6px;color:var(--terra);}
+.bigstat .u{font-size:.28em;font-weight:700;}
+.stat-mini{display:flex;gap:22px;margin-top:18px;}
+.stat-mini div{font-size:13px;font-weight:600;opacity:.85;}
+.stat-mini b{font-family:var(--font-heading);font-size:20px;color:var(--teal);display:block;}
+.slide:not(.light) .stat-mini b{color:#fff;}
 
-/* brand logo on slide */
-.s-logo{width:150px;margin-bottom:26px;}
+/* reasons (strengths) */
+.reasons{display:flex;flex-direction:column;gap:18px;margin-top:24px;}
+.reason{display:flex;gap:14px;align-items:flex-start;}
+.reason .rn{font-family:var(--font-heading);font-weight:800;font-size:26px;line-height:1;color:rgba(255,255,255,.45);flex-shrink:0;width:34px;}
+.reason .rt{font-family:var(--font-heading);font-weight:700;font-size:18px;margin-bottom:3px;}
+.reason .rd{font-size:13px;line-height:1.6;opacity:.85;}
+
+.s-highlight{margin-top:22px;font-family:var(--font-heading);font-weight:700;font-size:18px;color:var(--terra);}
+
+.s-logo{width:150px;margin-bottom:24px;}
 .s-logo img{width:100%;height:auto;}
-
-/* CTA buttons */
-.cta-btns{display:flex;flex-direction:column;gap:12px;margin-top:30px;}
-.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  padding:17px 24px;border-radius:3px;font-size:15px;font-weight:700;transition:transform .25s var(--ease),background .25s,color .25s;}
+.cta-btns{display:flex;flex-direction:column;gap:12px;margin-top:28px;}
+.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:17px 24px;border-radius:3px;font-size:15px;font-weight:700;transition:transform .25s var(--ease);}
 .cta-btn .ar{font-family:var(--font-en);}
 .cta-primary{background:var(--terra);color:#fff;}
 .cta-primary:active{transform:scale(.98);}
 .cta-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);}
 
-/* tap hint */
-.tap-hint{position:absolute;bottom:46px;left:0;right:0;text-align:center;z-index:24;
-  font-size:12px;letter-spacing:.08em;opacity:.8;animation:hintpulse 1.8s ease-in-out infinite;pointer-events:none;}
+.tap-hint{position:absolute;bottom:44px;left:0;right:0;text-align:center;z-index:24;font-size:12px;letter-spacing:.08em;opacity:.8;animation:hintpulse 1.8s ease-in-out infinite;pointer-events:none;}
 @keyframes hintpulse{0%,100%{opacity:.4;transform:translateY(0);}50%{opacity:.95;transform:translateY(-3px);}}
 
-/* nav arrows (desktop hint) */
-.nav-edge{position:absolute;top:0;bottom:0;width:30px;z-index:20;display:none;align-items:center;justify-content:center;
-  font-family:var(--font-en);color:rgba(255,255,255,.0);transition:color .2s;pointer-events:none;}
-@media(min-width:480px){.nav-edge{display:flex;}.story:hover .nav-edge{color:rgba(255,255,255,.45);}}
-.story[data-theme="light"] .story:hover .nav-edge,.story[data-theme="light"] .nav-edge{color:rgba(20,20,20,.3);}
-.nav-edge.left{left:2px;}.nav-edge.right{right:2px;}
-
-/* entrance animation */
 .slide .s-anim{opacity:0;transform:translateY(20px);}
-.slide.active .s-anim{opacity:1;transform:none;transition:opacity .6s var(--ease),transform .6s var(--ease);}
-.slide.active .d1{transition-delay:.08s;}
-.slide.active .d2{transition-delay:.2s;}
-.slide.active .d3{transition-delay:.34s;}
-.slide.active .d4{transition-delay:.48s;}
-.slide.active .d5{transition-delay:.62s;}
+.slide.active .s-anim{opacity:1;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease);}
+.slide.active .d1{transition-delay:.06s;}
+.slide.active .d2{transition-delay:.16s;}
+.slide.active .d3{transition-delay:.28s;}
+.slide.active .d4{transition-delay:.4s;}
+.slide.active .d5{transition-delay:.52s;}
 </style>
 </head>
 <body>
-
 <div class="story" id="story" data-theme="dark">
-  <!-- progress -->
   <div class="progress" id="progress"></div>
   <div class="story-brand">Tenmu</div>
+  <a class="cta-pill" href="https://tenmu.jp/brand/contact" target="_blank" rel="noopener">無料相談 <span class="ar">→</span></a>
   <div class="nav-edge left">‹</div>
   <div class="nav-edge right">›</div>
 
   <div class="slides">
-    <!-- 01 FV -->
+    <!-- 1 HOOK -->
     <section class="slide bg-fv active" data-theme="dark">
-      <div class="s-logo s-anim d1"><img src="images/tenmu-logo-white.png" alt="Tenmu" /></div>
-      <span class="s-kicker s-anim d2">Instagram 運用代行</span>
-      <h1 class="s-title s-anim d3">ブランド戦略 × 最新トレンドで、<br/>SNS運用の<span class="ac">正解</span>を。</h1>
-      <p class="s-sub s-anim d4">上場企業・医療機関・老舗ブランドから、<br/>のべ300社以上の運用実績。</p>
+      <span class="s-kicker s-anim d1">Instagram 運用代行</span>
+      <h1 class="s-title s-anim d2" style="font-size:clamp(32px,10vw,46px);">「投稿してるのに、<br/>伸びない。」</h1>
+      <p class="s-sub s-anim d3">その理由、ここから3秒で。</p>
     </section>
 
-    <!-- 02 ISSUES -->
+    <!-- 2 TRUST -->
     <section class="slide bg-light light" data-theme="light">
+      <span class="s-kicker s-anim d1">Results</span>
+      <div class="metrics-row s-anim d2">
+        <div class="metric"><div class="mlabel">Clients</div><div class="mval">300<span class="u">社〜</span></div></div>
+        <div class="metric"><div class="mlabel">Followers</div><div class="mval">60<span class="u">万</span></div></div>
+        <div class="metric"><div class="mlabel">Reach</div><div class="mval">3<span class="u">億</span></div></div>
+      </div>
+      <div class="trust-label s-anim d3">Trusted by</div>
+      <div class="logo-grid s-anim d4">
+        <img src="images/clients-01.webp" alt="Lenovo / dentsu" />
+        <img src="images/clients-03.webp" alt="JINRO / Mandarin Oriental Tokyo" />
+        <img src="images/clients-02.webp" alt="naturie / Pernod Ricard Japan" />
+        <img src="images/clients-05.webp" alt="ちふれ / CAFFÈ VELOCE" />
+      </div>
+      <p class="s-note s-anim d5">※ 運用代行・コンサルティング・広告運用の累計</p>
+    </section>
+
+    <!-- 3 ISSUES -->
+    <section class="slide bg-darkteal" data-theme="dark">
       <span class="s-kicker s-anim d1">01 — Issues</span>
       <h2 class="s-title s-anim d2">こんな悩み、<br/>ありませんか？</h2>
       <ul class="s-list">
@@ -179,65 +168,50 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
       </ul>
     </section>
 
-    <!-- 03 SOLUTION -->
+    <!-- 4 SOLUTION + meta -->
     <section class="slide bg-terra" data-theme="dark">
       <span class="s-kicker s-anim d1">Solution</span>
       <h2 class="s-title s-anim d2">Tenmuが、<br/>ワンストップで解決。</h2>
-      <p class="s-sub s-anim d3">戦略設計・制作・日々の運用・分析まで、<br/>すべて一気通貫でご支援します。</p>
+      <p class="s-sub s-anim d3">戦略設計・制作・日々の運用・分析まで、すべて一気通貫で。</p>
+      <div class="s-quote s-anim d4">そして——この体験自体が、<br/>私たちの作るコンテンツです。</div>
     </section>
 
-    <!-- 04 RESULTS -->
-    <section class="slide bg-dark" data-theme="dark">
-      <span class="s-kicker s-anim d1">Results</span>
-      <div class="metrics">
-        <div class="metric s-anim d2"><div class="mlabel">Clients</div><div class="mval">300<span class="u">社〜</span></div></div>
-        <div class="metric s-anim d3"><div class="mlabel">Total Followers</div><div class="mval">60<span class="u">万人</span></div></div>
-        <div class="metric s-anim d4"><div class="mlabel">Cumulative Reach</div><div class="mval">3<span class="u">億回</span></div></div>
-      </div>
-      <p class="s-note s-anim d5">※ 運用代行・コンサルティング・広告運用の累計</p>
-    </section>
-
-    <!-- 05 STRENGTH 1 -->
-    <section class="slide bg-teal" data-theme="dark">
-      <span class="s-kicker s-anim d1">Strength 01</span>
-      <h2 class="s-title s-anim d2">伸びる<br/>クリエイティブ</h2>
-      <p class="s-sub s-anim d3">綿密な市場調査と最新トレンドで、ブランドの世界観を守りながら、しっかり数字を伸ばす。</p>
-    </section>
-
-    <!-- 06 STRENGTH 2 -->
-    <section class="slide bg-light light" data-theme="light">
-      <span class="s-kicker s-anim d1">Strength 02</span>
-      <h2 class="s-title s-anim d2">データドリブンで<br/>継続改善</h2>
-      <p class="s-sub s-anim d3">独自ノウハウで「なぜ伸びたか／止まったか」を言語化し、翌月の打ち手までご提示。</p>
-    </section>
-
-    <!-- 07 STRENGTH 3 -->
-    <section class="slide bg-darkteal" data-theme="dark">
-      <span class="s-kicker s-anim d1">Strength 03</span>
-      <h2 class="s-title s-anim d2">チーム体制で<br/>安定運用</h2>
-      <p class="s-sub s-anim d3">属人化やミスのリスクを最小化。安定したクオリティで運用を継続します。</p>
-    </section>
-
-    <!-- 08 CASE -->
+    <!-- 5 CASE -->
     <section class="slide bg-light light" data-theme="light">
       <span class="s-kicker s-anim d1">Case Study</span>
       <div class="bigstat s-anim d2">×4.0<span class="u">倍</span></div>
-      <h2 class="s-title s-anim d3" style="font-size:clamp(20px,6vw,26px);">エンゲージメント率</h2>
-      <p class="s-sub s-anim d4">D2C化粧品ブランド／投稿ごとの保存・シェアが安定的に上昇。</p>
+      <h2 class="s-title s-anim d3" style="font-size:clamp(19px,5.6vw,24px);">エンゲージメント率（D2C化粧品ブランド）</h2>
+      <div class="stat-mini s-anim d4">
+        <div>保存数<b>×3.2</b></div>
+        <div>リーチ<b>+180%</b></div>
+      </div>
+      <p class="s-sub s-anim d5">“なんとなく”の運用から、再現性ある成長へ。</p>
     </section>
 
-    <!-- 09 PRICING -->
+    <!-- 6 REASONS (strengths) -->
+    <section class="slide bg-teal" data-theme="dark">
+      <span class="s-kicker s-anim d1">Why Tenmu</span>
+      <h2 class="s-title s-anim d2">選ばれる、<br/>3つの理由。</h2>
+      <div class="reasons">
+        <div class="reason s-anim d3"><div class="rn">01</div><div><div class="rt">伸ばす</div><div class="rd">市場調査×最新トレンドの制作で、世界観を守り数字を伸ばす</div></div></div>
+        <div class="reason s-anim d4"><div class="rn">02</div><div><div class="rt">改善する</div><div class="rd">独自ノウハウのデータ分析で、翌月の打ち手まで提示</div></div></div>
+        <div class="reason s-anim d5"><div class="rn">03</div><div><div class="rt">外さない</div><div class="rd">チーム体制で属人化・ミスのリスクを最小化</div></div></div>
+      </div>
+    </section>
+
+    <!-- 7 PRICING + risk reversal -->
     <section class="slide bg-dark" data-theme="dark">
       <span class="s-kicker s-anim d1">Pricing</span>
-      <div class="bigstat s-anim d2" style="color:var(--terra);">月30<span class="u">万円〜</span></div>
-      <p class="s-sub s-anim d3">投稿数・撮影・リールなど、ご予算と目的に合わせて自由に設計できます。</p>
+      <div class="bigstat s-anim d2">月30<span class="u">万円〜</span></div>
+      <p class="s-sub s-anim d3">投稿数・撮影・リールなど、目的とご予算に合わせて自由に設計。</p>
+      <div class="s-highlight s-anim d4">まずは“無料診断”から。リスクはありません。</div>
     </section>
 
-    <!-- 10 CTA -->
+    <!-- 8 CTA -->
     <section class="slide bg-cta" data-theme="dark">
       <div class="s-logo s-anim d1"><img src="images/tenmu-logo-white.png" alt="Tenmu" /></div>
-      <h2 class="s-title s-anim d2">まずは、<br/>無料診断から。</h2>
-      <p class="s-sub s-anim d3">現状のアカウントを診断し、改善の方向性をまとめてお渡しします。</p>
+      <h2 class="s-title s-anim d2">今のアカウント、<br/>無料で診断します。</h2>
+      <p class="s-sub s-anim d3">課題と改善の方向性をまとめてお渡しします。</p>
       <div class="cta-btns s-anim d4">
         <a href="https://tenmu.jp/brand/contact" target="_blank" rel="noopener" class="cta-btn cta-primary">まずは相談してみる <span class="ar">→</span></a>
         <a href="https://drive.google.com/file/d/11o0WymiQ3Q9UUkZ9NbDvorNNu5q6pX0J/view?usp=sharing" target="_blank" rel="noopener" class="cta-btn cta-ghost">サービス資料を見る <span class="ar">↗</span></a>
@@ -254,59 +228,34 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
   const slides=[...document.querySelectorAll('.slide')];
   const progress=document.getElementById('progress');
   const tapHint=document.getElementById('tapHint');
-  const DUR=6000;
   const last=slides.length-1;
   let idx=0;
-
-  // build progress segments
   const fills=[];
-  slides.forEach(()=>{
-    const seg=document.createElement('div');seg.className='seg';
-    const fill=document.createElement('span');fill.className='fill';
-    seg.appendChild(fill);progress.appendChild(seg);fills.push(fill);
-  });
+  slides.forEach(()=>{const seg=document.createElement('div');seg.className='seg';const f=document.createElement('span');f.className='fill';seg.appendChild(f);progress.appendChild(seg);fills.push(f);});
 
   function render(i){
     idx=Math.max(0,Math.min(last,i));
     slides.forEach((sl,j)=>sl.classList.toggle('active',j===idx));
     story.setAttribute('data-theme', slides[idx].getAttribute('data-theme')||'dark');
-    fills.forEach((f,j)=>{
-      f.style.animation='none';
-      f.style.transform = j<idx ? 'scaleX(1)' : 'scaleX(0)';
-    });
-    const cur=fills[idx];
-    void cur.offsetWidth; // reflow to restart
-    if(idx<last){ cur.style.animation='segfill '+DUR+'ms linear forwards'; }
-    else { cur.style.transform='scaleX(1)'; }
-    story.classList.remove('paused');
+    fills.forEach((f,j)=>{ f.style.transform = j<=idx ? 'scaleX(1)' : 'scaleX(0)'; });
     if(tapHint) tapHint.style.display = idx===0 ? 'block' : 'none';
   }
   function next(){ if(idx<last) render(idx+1); }
   function prev(){ if(idx>0) render(idx-1); }
 
-  fills.forEach((f,j)=>f.addEventListener('animationend',()=>{ if(j===idx && idx<last) next(); }));
-
-  // pointer: tap zones + swipe + hold-to-pause
+  // tap zones + swipe (no auto-advance)
   let sx=0,sy=0,st=0,moved=false;
-  story.addEventListener('pointerdown',e=>{ sx=e.clientX;sy=e.clientY;st=Date.now();moved=false;story.classList.add('paused'); });
-  story.addEventListener('pointermove',e=>{ if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10) moved=true; });
-  function endPointer(e){
-    const dx=e.clientX-sx, dy=e.clientY-sy, dt=Date.now()-st;
-    story.classList.remove('paused');
+  story.addEventListener('pointerdown',e=>{sx=e.clientX;sy=e.clientY;st=Date.now();moved=false;});
+  story.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-sx)>10||Math.abs(e.clientY-sy)>10)moved=true;});
+  story.addEventListener('pointerup',e=>{
     if(e.target.closest('a,button')) return;
-    if(Math.abs(dx)>45 && Math.abs(dx)>Math.abs(dy)){ dx<0?next():prev(); return; }
-    if(!moved && dt<300){ const r=story.getBoundingClientRect(); (e.clientX-r.left)<r.width*0.32 ? prev() : next(); }
-  }
-  story.addEventListener('pointerup',endPointer);
-  story.addEventListener('pointercancel',()=>story.classList.remove('paused'));
+    const dx=e.clientX-sx,dy=e.clientY-sy,dt=Date.now()-st;
+    if(Math.abs(dx)>45&&Math.abs(dx)>Math.abs(dy)){dx<0?next():prev();return;}
+    if(!moved&&dt<350){const r=story.getBoundingClientRect();(e.clientX-r.left)<r.width*0.32?prev():next();}
+  });
   document.querySelector('.nav-edge.left').addEventListener('click',e=>{e.stopPropagation();prev();});
   document.querySelector('.nav-edge.right').addEventListener('click',e=>{e.stopPropagation();next();});
-
-  window.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}
-    else if(e.key==='ArrowLeft'){e.preventDefault();prev();}
-  });
-
+  window.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}else if(e.key==='ArrowLeft'){e.preventDefault();prev();}});
   render(0);
 })();
 </script>
