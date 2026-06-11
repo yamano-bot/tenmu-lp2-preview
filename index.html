@@ -84,6 +84,11 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 .logo-grid img{height:24px;width:auto;object-fit:contain;}
 .s-note{font-size:11px;opacity:.55;margin-top:18px;}
 .slide.light .s-note{color:var(--sub);opacity:1;}
+.metrics-stack{display:flex;flex-direction:column;gap:16px;margin:8px 0 20px;}
+.metrics-stack .mlabel-jp{font-size:12px;color:var(--sub);margin-bottom:3px;}
+.metrics-stack .mval{font-family:var(--font-heading);font-weight:800;font-size:clamp(40px,13vw,56px);line-height:1;letter-spacing:-.03em;color:var(--teal);display:flex;align-items:baseline;gap:3px;}
+.metrics-stack .mval .u{font-family:var(--font-body);font-size:.28em;font-weight:700;color:var(--ink);}
+.trust-text{font-size:14px;line-height:1.9;color:var(--ink);font-weight:600;margin-bottom:12px;}
 
 /* big stat */
 .bigstat{font-family:var(--font-heading);font-weight:800;letter-spacing:-.03em;line-height:1;font-size:clamp(54px,18vw,80px);display:flex;align-items:baseline;gap:6px;margin:8px 0 6px;color:var(--terra);}
@@ -142,18 +147,12 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
     <!-- 2 TRUST -->
     <section class="slide bg-light light" data-theme="light">
       <span class="s-kicker s-anim d1">Results</span>
-      <div class="metrics-row s-anim d2">
-        <div class="metric"><div class="mlabel">Clients</div><div class="mval">300<span class="u">社〜</span></div></div>
-        <div class="metric"><div class="mlabel">Followers</div><div class="mval">60<span class="u">万</span></div></div>
-        <div class="metric"><div class="mlabel">Reach</div><div class="mval">3<span class="u">億</span></div></div>
+      <div class="metrics-stack">
+        <div class="metric s-anim d2"><div class="mlabel-jp">支援社数</div><div class="mval">300<span class="u">社〜</span></div></div>
+        <div class="metric s-anim d3"><div class="mlabel-jp">総フォロワー獲得数</div><div class="mval">60<span class="u">万人</span></div></div>
+        <div class="metric s-anim d4"><div class="mlabel-jp">累計リーチ数</div><div class="mval">3<span class="u">億回</span></div></div>
       </div>
-      <div class="trust-label s-anim d3">Trusted by</div>
-      <div class="logo-grid s-anim d4">
-        <img src="images/clients-01.webp" alt="Lenovo / dentsu" />
-        <img src="images/clients-03.webp" alt="JINRO / Mandarin Oriental Tokyo" />
-        <img src="images/clients-02.webp" alt="naturie / Pernod Ricard Japan" />
-        <img src="images/clients-05.webp" alt="ちふれ / CAFFÈ VELOCE" />
-      </div>
+      <p class="trust-text s-anim d5">上場企業・医療機関・老舗ブランドから、<br/>のべ300社以上の運用実績。</p>
       <p class="s-note s-anim d5">※ 運用代行・コンサルティング・広告運用の累計</p>
     </section>
 
