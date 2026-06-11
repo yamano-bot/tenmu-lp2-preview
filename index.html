@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>Tenmu — Instagram運用代行 | Story</title>
+<title>Tenmu｜インスタ運用代行</title>
 <style>
 :root{
-  --teal:#1a7085; --teal-deep:#0e4e5f; --teal-dark:#08333f;
-  --terra:#0510e7; --bg:#f6f3ec; --ink:#141414; --sub:#5a5a55;
+  --blue:#0510e7; --white:#ffffff;
   --font-heading:"mb31","游ゴシック体","YuGothic","Yu Gothic","ヒラギノ角ゴ ProN W6",sans-serif;
   --font-body:"ヒラギノ角ゴ ProN","Hiragino Kaku Gothic ProN","游ゴシック","Yu Gothic","メイリオ",Meiryo,sans-serif;
   --font-en:"neue-haas-grotesk-text","Helvetica Neue","Helvetica","Arial",sans-serif;
@@ -15,120 +14,108 @@
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;}
-body{background:#0a0a0a;color:#fff;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;min-height:100dvh;overflow:hidden;font-feature-settings:"palt";-webkit-font-smoothing:antialiased;}
+body{background:#03067a;color:#fff;font-family:var(--font-body);display:flex;align-items:center;justify-content:center;min-height:100dvh;overflow:hidden;font-feature-settings:"palt";-webkit-font-smoothing:antialiased;}
 img{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;border:none;background:none;cursor:pointer;color:inherit;}
 
-.story{position:relative;width:100%;max-width:440px;height:100dvh;overflow:hidden;background:#000;user-select:none;touch-action:pan-y;}
-@media(min-width:480px){body{padding:20px;}.story{height:min(100dvh,900px);border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.55);}}
+.story{position:relative;width:100%;max-width:440px;height:100dvh;overflow:hidden;background:#fff;user-select:none;touch-action:pan-y;}
+@media(min-width:480px){body{padding:20px;}.story{height:min(100dvh,900px);border-radius:22px;box-shadow:0 30px 90px rgba(0,0,0,.5);}}
 
+/* progress */
 .progress{position:absolute;top:0;left:0;right:0;z-index:30;display:flex;gap:5px;padding:14px 14px 0;}
-.seg{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.28);overflow:hidden;}
+.seg{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.32);overflow:hidden;}
 .seg .fill{display:block;width:100%;height:100%;background:#fff;border-radius:3px;transform:scaleX(0);transform-origin:left center;transition:transform .35s var(--ease);}
-.story[data-theme="light"] .seg{background:rgba(20,20,20,.18);}
-.story[data-theme="light"] .seg .fill{background:var(--ink);}
+.story[data-theme="white"] .seg{background:rgba(5,16,231,.18);}
+.story[data-theme="white"] .seg .fill{background:var(--blue);}
 
-.story-brand{position:absolute;top:30px;left:18px;z-index:25;font-family:var(--font-en);font-size:10px;letter-spacing:.22em;font-weight:600;text-transform:uppercase;color:rgba(255,255,255,.75);pointer-events:none;text-shadow:0 1px 6px rgba(0,0,0,.3);}
-.story[data-theme="light"] .story-brand{color:rgba(20,20,20,.5);text-shadow:none;}
-.cta-pill{position:absolute;top:24px;right:14px;z-index:26;background:var(--terra);color:#fff;font-size:11px;font-weight:700;padding:8px 14px;border-radius:100px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 14px rgba(5,16,231,.45);}
+/* persistent CTA */
+.cta-pill{position:absolute;top:24px;right:14px;z-index:26;background:#fff;color:var(--blue);font-size:11px;font-weight:800;padding:9px 15px;border-radius:100px;display:inline-flex;align-items:center;gap:6px;box-shadow:0 4px 16px rgba(0,0,0,.18);}
+.story[data-theme="white"] .cta-pill{background:var(--blue);color:#fff;}
 .cta-pill .ar{font-family:var(--font-en);}
-.nav-edge{position:absolute;top:0;bottom:0;width:30px;z-index:20;display:none;align-items:center;justify-content:center;font-family:var(--font-en);color:rgba(255,255,255,0);transition:color .2s;}
-@media(min-width:480px){.nav-edge{display:flex;}.story:hover .nav-edge{color:rgba(255,255,255,.4);}}
+.nav-edge{position:absolute;top:0;bottom:0;width:30px;z-index:20;display:none;align-items:center;justify-content:center;font-family:var(--font-en);color:transparent;transition:color .2s;}
+@media(min-width:480px){.nav-edge{display:flex;}.story:hover .nav-edge{color:rgba(255,255,255,.5);}.story[data-theme="white"]:hover .nav-edge{color:rgba(5,16,231,.4);}}
 .nav-edge.left{left:2px;}.nav-edge.right{right:2px;}
 
+/* slides */
 .slides{position:absolute;inset:0;}
 .slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:92px 30px 92px;opacity:0;visibility:hidden;transition:opacity .45s var(--ease);overflow:hidden;}
 .slide.active{opacity:1;visibility:visible;}
-.slide.light{color:var(--ink);}
-.bg-fv{background:radial-gradient(120% 90% at 70% 8%,#1a7085 0%,#0e4e5f 45%,#08333f 100%);}
-.bg-dark{background:#141414;}
-.bg-darkteal{background:linear-gradient(160deg,#0e4e5f,#08333f);}
-.bg-teal{background:linear-gradient(160deg,#1a7085,#0e4e5f);}
-.bg-light{background:var(--bg);}
-.bg-cta{background:radial-gradient(120% 90% at 50% 0%,#1a7085 0%,#0e4e5f 55%,#08333f 100%);}
-.slide.bg-feed{background:url('images/feed-grid.jpg') center/cover;}
-.slide.bg-feed::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,51,63,.4) 0%,rgba(8,51,63,.62) 55%,rgba(8,51,63,.95) 100%);z-index:0;}
+.bg-blue{background:linear-gradient(165deg,#1623ff 0%,#0510e7 55%,#040cc4 100%);color:#fff;}
+.bg-white{background:#fff;color:var(--blue);}
+.bg-cta{background:radial-gradient(120% 90% at 50% 5%,#2430ff 0%,#0510e7 58%,#040cc4 100%);color:#fff;}
+.slide.bg-feed{background:url('images/feed-grid.jpg') center/cover;color:#fff;}
+.slide.bg-feed::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(5,16,231,.5) 0%,rgba(5,16,231,.72) 55%,rgba(4,12,196,.95) 100%);z-index:0;}
 .slide.bg-feed>*{position:relative;z-index:1;}
 
-.s-kicker{font-family:var(--font-en);font-size:11px;letter-spacing:.2em;font-weight:600;text-transform:uppercase;margin-bottom:16px;display:inline-flex;align-items:center;gap:10px;opacity:.85;}
-.s-kicker::before{content:"";width:24px;height:2px;background:currentColor;}
-.slide.light .s-kicker{color:var(--teal);}
-.s-title{font-family:var(--font-heading);font-weight:800;line-height:1.34;letter-spacing:-.02em;font-size:clamp(27px,8vw,38px);}
-.s-title .ac{color:var(--terra);}
-.slide.bg-terra .s-title .ac,.slide.bg-teal .s-title .ac{color:#fff;}
-.s-sub{font-size:14.5px;line-height:1.95;margin-top:16px;opacity:.92;max-width:340px;}
-.slide.light .s-sub{color:var(--sub);}
-.s-quote{margin-top:20px;padding:14px 16px;border-left:3px solid rgba(255,255,255,.7);font-size:13.5px;line-height:1.7;font-weight:600;background:rgba(255,255,255,.1);border-radius:0 6px 6px 0;}
+.s-kicker{font-family:var(--font-body);font-size:12px;font-weight:800;letter-spacing:.04em;margin-bottom:16px;display:inline-flex;align-items:center;gap:10px;opacity:.92;}
+.s-kicker::before{content:"";width:22px;height:2px;background:currentColor;}
+.s-title{font-family:var(--font-heading);font-weight:800;line-height:1.36;letter-spacing:-.02em;font-size:clamp(28px,8.4vw,40px);}
+.s-title .ac{text-decoration:underline;text-decoration-thickness:.09em;text-underline-offset:.1em;}
+.s-sub{font-size:14.5px;line-height:1.95;margin-top:16px;max-width:340px;opacity:.95;}
+.bg-white .s-sub{opacity:.82;}
 
-.s-list{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:13px;}
-.s-list li{font-size:16px;font-weight:600;line-height:1.5;display:flex;gap:12px;align-items:flex-start;}
-.s-list li::before{flex-shrink:0;width:22px;height:22px;border-radius:50%;background:var(--terra);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:2px;}
+.s-list{list-style:none;margin-top:24px;display:flex;flex-direction:column;gap:14px;}
+.s-list li{font-size:16.5px;font-weight:700;line-height:1.5;display:flex;gap:12px;align-items:flex-start;}
+.s-list li::before{flex-shrink:0;width:24px;height:24px;border-radius:50%;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+.bg-white .s-list li::before{background:var(--blue);color:#fff;}
+.bg-blue .s-list li::before{background:#fff;color:var(--blue);}
 .s-list li:nth-child(1)::before{content:"1";}.s-list li:nth-child(2)::before{content:"2";}.s-list li:nth-child(3)::before{content:"3";}
 
-/* metrics (trust) */
+/* metrics */
 .metrics-stack{display:flex;flex-direction:column;gap:16px;margin:8px 0 18px;}
-.metrics-stack .mlabel-jp{font-size:12px;color:var(--sub);margin-bottom:3px;}
-.metrics-stack .mval{font-family:var(--font-heading);font-weight:800;font-size:clamp(38px,12vw,52px);line-height:1;letter-spacing:-.03em;color:var(--teal);display:flex;align-items:baseline;gap:3px;}
-.metrics-stack .mval .u{font-family:var(--font-body);font-size:.28em;font-weight:700;color:var(--ink);}
-.trust-text{font-size:14px;line-height:1.85;color:var(--ink);font-weight:600;margin-bottom:10px;}
-.s-note{font-size:11px;opacity:.55;margin-top:14px;}
-.slide.light .s-note{color:var(--sub);opacity:1;}
+.metrics-stack .mlabel-jp{font-size:12px;opacity:.7;margin-bottom:3px;}
+.metrics-stack .mval{font-family:var(--font-heading);font-weight:800;font-size:clamp(40px,13vw,56px);line-height:1;letter-spacing:-.03em;display:flex;align-items:baseline;gap:3px;}
+.metrics-stack .mval .u{font-family:var(--font-body);font-size:.28em;font-weight:700;opacity:.85;}
+.trust-text{font-size:14px;line-height:1.85;font-weight:700;margin-bottom:10px;}
+.s-note{font-size:11px;opacity:.6;margin-top:14px;}
 
-/* IG mock post */
-.ig-card{width:282px;max-width:100%;margin:8px auto 0;background:#fff;color:#111;border-radius:14px;overflow:hidden;box-shadow:0 18px 55px rgba(0,0,0,.5);position:relative;}
+/* IG mock post (white card, blue ink) */
+.ig-card{width:280px;max-width:100%;margin:6px auto 0;background:#fff;color:var(--blue);border-radius:14px;overflow:hidden;box-shadow:0 18px 55px rgba(0,0,0,.35);position:relative;}
 .ig-head{display:flex;align-items:center;gap:9px;padding:11px 12px;}
-.ig-av{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 90deg,#0510e7,#1a7085,#0510e7);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.ig-av span{width:24px;height:24px;border-radius:50%;background:#fff;color:#111;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
-.ig-user{font-size:12.5px;font-weight:700;flex:1;line-height:1.2;}
-.ig-user small{display:block;font-weight:400;color:#888;font-size:10px;}
-.ig-more{color:#999;font-weight:700;letter-spacing:1px;}
+.ig-av{width:30px;height:30px;border-radius:50%;background:var(--blue);padding:2px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ig-av span{width:100%;height:100%;border-radius:50%;background:#fff;color:var(--blue);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.ig-user{font-size:12.5px;font-weight:800;flex:1;line-height:1.25;}
+.ig-user small{display:block;font-weight:500;opacity:.55;font-size:10px;}
+.ig-more{opacity:.45;font-weight:800;letter-spacing:1px;}
 .ig-photo{aspect-ratio:1/1;background:url('images/feed-grid.jpg');background-size:330%;background-position:30% 36%;}
 .ig-actions{display:flex;align-items:center;gap:14px;padding:11px 12px 6px;}
-.ig-actions svg{width:23px;height:23px;stroke:#111;fill:none;stroke-width:1.7;}
-.ig-actions .liked svg{fill:#e0245e;stroke:#e0245e;}
+.ig-actions svg{width:23px;height:23px;stroke:var(--blue);fill:none;stroke-width:1.7;}
+.ig-actions .liked svg{fill:var(--blue);stroke:var(--blue);}
 .ig-actions .save{margin-left:auto;}
-.ig-likes{padding:0 12px;font-size:12.5px;font-weight:700;color:#111;}
-.ig-cap{padding:4px 12px 14px;font-size:12px;line-height:1.55;color:#222;}
-.ig-cap b{font-weight:700;}
-.ig-cap .tag{color:#1a7085;}
-.ig-badge{position:absolute;top:46px;right:-6px;background:var(--terra);color:#fff;font-size:11px;font-weight:800;padding:6px 12px;border-radius:100px;box-shadow:0 5px 16px rgba(5,16,231,.55);}
-
-/* growth tiles */
-.growth-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:22px;}
-.gtile{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:15px 15px;}
-.gtile .gl{font-size:11px;opacity:.8;}
-.gtile .gv{font-family:var(--font-heading);font-weight:800;font-size:30px;line-height:1.1;margin-top:5px;letter-spacing:-.02em;}
-.gtile .gv .u{font-size:.5em;}
+.ig-likes{padding:0 12px;font-size:12.5px;font-weight:800;}
+.ig-cap{padding:4px 12px 14px;font-size:12px;line-height:1.55;}
+.ig-cap b{font-weight:800;}
+.ig-cap .tag{opacity:.7;}
+.ig-badge{position:absolute;top:46px;right:-6px;background:var(--blue);color:#fff;font-size:11px;font-weight:800;padding:6px 12px;border-radius:100px;box-shadow:0 6px 16px rgba(0,0,0,.3);}
 
 /* report frame */
-.report-frame{width:330px;max-width:100%;margin:14px auto 0;border-radius:10px;overflow:hidden;box-shadow:0 18px 55px rgba(0,0,0,.55);}
-.report-bar{background:#0a0a0a;padding:9px 12px;display:flex;align-items:center;gap:6px;}
-.report-bar .dot{width:9px;height:9px;border-radius:50%;}
-.report-bar .dot:nth-child(1){background:#ff5f57;}.report-bar .dot:nth-child(2){background:#febc2e;}.report-bar .dot:nth-child(3){background:#28c840;}
-.report-bar .addr{flex:1;text-align:center;font-family:var(--font-en);font-size:9px;color:#888;background:rgba(255,255,255,.08);padding:3px 10px;border-radius:3px;margin-left:8px;}
+.report-frame{width:330px;max-width:100%;margin:14px auto 0;border-radius:10px;overflow:hidden;box-shadow:0 18px 50px rgba(5,16,231,.25);border:1px solid rgba(5,16,231,.12);}
+.report-bar{background:var(--blue);padding:9px 12px;display:flex;align-items:center;gap:6px;}
+.report-bar .dot{width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.55);}
+.report-bar .addr{flex:1;text-align:center;font-size:10px;color:rgba(255,255,255,.85);background:rgba(255,255,255,.16);padding:3px 10px;border-radius:3px;margin-left:8px;}
 .report-frame img{width:100%;display:block;background:#fff;}
 
 /* reasons */
-.reasons{display:flex;flex-direction:column;gap:16px;margin-top:22px;}
+.reasons{display:flex;flex-direction:column;gap:17px;margin-top:22px;}
 .reason{display:flex;gap:14px;align-items:flex-start;}
-.reason .rn{font-family:var(--font-heading);font-weight:800;font-size:24px;line-height:1;color:rgba(255,255,255,.45);flex-shrink:0;width:32px;}
-.reason .rt{font-family:var(--font-heading);font-weight:700;font-size:17px;margin-bottom:3px;}
-.reason .rd{font-size:12.5px;line-height:1.55;opacity:.85;}
+.reason .rn{font-family:var(--font-heading);font-weight:800;font-size:24px;line-height:1;opacity:.38;flex-shrink:0;width:34px;}
+.reason .rt{font-family:var(--font-heading);font-weight:800;font-size:18px;margin-bottom:3px;}
+.reason .rd{font-size:12.5px;line-height:1.6;opacity:.82;}
 
-.bigstat{font-family:var(--font-heading);font-weight:800;letter-spacing:-.03em;line-height:1;font-size:clamp(54px,18vw,78px);display:flex;align-items:baseline;gap:6px;margin:8px 0 6px;color:var(--terra);}
-.bigstat .u{font-size:.28em;font-weight:700;}
-.s-highlight{margin-top:20px;font-family:var(--font-heading);font-weight:700;font-size:17px;color:var(--terra);}
+.bigstat{font-family:var(--font-heading);font-weight:800;letter-spacing:-.03em;line-height:1;font-size:clamp(54px,18vw,78px);display:flex;align-items:baseline;gap:6px;margin:8px 0 6px;}
+.bigstat .u{font-size:.28em;font-weight:800;}
+.s-highlight{margin-top:20px;font-family:var(--font-heading);font-weight:800;font-size:18px;line-height:1.6;}
 
 .s-logo{width:148px;margin-bottom:22px;}.s-logo img{width:100%;height:auto;}
 .cta-btns{display:flex;flex-direction:column;gap:12px;margin-top:26px;}
-.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:17px 24px;border-radius:3px;font-size:15px;font-weight:700;transition:transform .25s var(--ease);}
+.cta-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:18px 24px;border-radius:3px;font-size:15px;font-weight:800;transition:transform .25s var(--ease);}
 .cta-btn .ar{font-family:var(--font-en);}
-.cta-primary{background:var(--terra);color:#fff;}.cta-primary:active{transform:scale(.98);}
-.cta-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.5);}
+.cta-primary{background:#fff;color:var(--blue);}.cta-primary:active{transform:scale(.98);}
+.cta-ghost{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.55);}
 
-.tap-hint{position:absolute;bottom:42px;left:0;right:0;text-align:center;z-index:24;font-size:12px;letter-spacing:.08em;opacity:.8;animation:hintpulse 1.8s ease-in-out infinite;pointer-events:none;}
-@keyframes hintpulse{0%,100%{opacity:.4;transform:translateY(0);}50%{opacity:.95;transform:translateY(-3px);}}
+.tap-hint{position:absolute;bottom:42px;left:0;right:0;text-align:center;z-index:24;font-size:12px;letter-spacing:.06em;opacity:.85;animation:hintpulse 1.8s ease-in-out infinite;pointer-events:none;}
+@keyframes hintpulse{0%,100%{opacity:.45;transform:translateY(0);}50%{opacity:1;transform:translateY(-3px);}}
 
 .slide .s-anim{opacity:0;transform:translateY(20px);}
 .slide.active .s-anim{opacity:1;transform:none;transition:opacity .55s var(--ease),transform .55s var(--ease);}
@@ -136,47 +123,46 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
 </style>
 </head>
 <body>
-<div class="story" id="story" data-theme="dark">
+<div class="story" id="story" data-theme="blue">
   <div class="progress" id="progress"></div>
-  <div class="story-brand">Tenmu</div>
   <a class="cta-pill" href="https://tenmu.jp/brand/contact" target="_blank" rel="noopener">無料相談 <span class="ar">→</span></a>
   <div class="nav-edge left">‹</div>
   <div class="nav-edge right">›</div>
 
   <div class="slides">
     <!-- 1 HOOK -->
-    <section class="slide bg-fv active" data-theme="dark">
-      <span class="s-kicker s-anim d1">Instagram 運用代行 / Tenmu</span>
-      <h1 class="s-title s-anim d2" style="font-size:clamp(31px,9.5vw,44px);">「投稿してるのに、<br/>伸びない。」</h1>
-      <p class="s-sub s-anim d3">その理由も、伸ばし方も、<br/>このまま“スワイプ”でお見せします。</p>
+    <section class="slide bg-blue active" data-theme="blue">
+      <span class="s-kicker s-anim d1">インスタ運用代行</span>
+      <h1 class="s-title s-anim d2" style="font-size:clamp(31px,9.5vw,44px);">投稿してるのに、<br/>伸びない。</h1>
+      <p class="s-sub s-anim d3">犯人はたぶん、“なんとなく”。<br/>その正体、スワイプでバラします。</p>
     </section>
 
     <!-- 2 ISSUES -->
-    <section class="slide bg-light light" data-theme="light">
-      <span class="s-kicker s-anim d1">01 — Issues</span>
-      <h2 class="s-title s-anim d2">その伸び悩み、<br/>原因はだいたい3つ。</h2>
+    <section class="slide bg-white" data-theme="white">
+      <span class="s-kicker s-anim d1">よくある伸び悩み</span>
+      <h2 class="s-title s-anim d2">原因、だいたい<br/>この3つ。</h2>
       <ul class="s-list">
-        <li class="s-anim d3">“なんとなく”で投稿していて、戦略がない</li>
-        <li class="s-anim d4">クリエイティブがブランドの世界観と合っていない</li>
-        <li class="s-anim d5">数字を見ても、次の打ち手に変えられていない</li>
+        <li class="s-anim d3">戦略なき、“とりあえず投稿”</li>
+        <li class="s-anim d4">ブランドの世界観が、迷子。</li>
+        <li class="s-anim d5">数字は見てる。でも、動けてない。</li>
       </ul>
     </section>
 
-    <!-- 3 FEED showcase -->
-    <section class="slide bg-feed" data-theme="dark">
-      <span class="s-kicker s-anim d1">Our Work</span>
-      <h2 class="s-title s-anim d2">違いは、<br/>“コンテンツ”に出る。</h2>
-      <p class="s-sub s-anim d3">1枚1枚に、ブランドの戦略と世界観を。<br/>「思わず保存したくなる」フィードを設計します。</p>
+    <!-- 3 FEED -->
+    <section class="slide bg-feed" data-theme="blue">
+      <span class="s-kicker s-anim d1">わたしたちのフィード</span>
+      <h2 class="s-title s-anim d2">スクロールする指を、<br/>止めにいく。</h2>
+      <p class="s-sub s-anim d3">1枚1枚に、戦略と世界観を。<br/>“つい保存したくなる”は、設計できます。</p>
     </section>
 
-    <!-- 4 IG POST demo -->
-    <section class="slide bg-dark" data-theme="dark">
-      <span class="s-kicker s-anim d1">Creative</span>
-      <h2 class="s-title s-anim d2" style="font-size:clamp(24px,7.2vw,32px);">「保存される投稿」を、<br/>設計する。</h2>
+    <!-- 4 IG POST -->
+    <section class="slide bg-blue" data-theme="blue">
+      <span class="s-kicker s-anim d1">投稿づくり</span>
+      <h2 class="s-title s-anim d2" style="font-size:clamp(25px,7.4vw,33px);">「保存」は、<br/>狙って獲りにいく。</h2>
       <div class="ig-card s-anim d3">
         <div class="ig-head">
           <div class="ig-av"><span>T</span></div>
-          <div class="ig-user">brand_official<small>Sponsored</small></div>
+          <div class="ig-user">ブランド公式<small>広告</small></div>
           <div class="ig-more">···</div>
         </div>
         <div class="ig-photo"></div>
@@ -185,62 +171,61 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
           <span><svg viewBox="0 0 24 24"><path d="M21 11.5a8.5 8.5 0 0 1-12.5 7.5L3 21l2-5A8.5 8.5 0 1 1 21 11.5z"/></svg></span>
           <span class="save"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg></span>
         </div>
-        <div class="ig-likes">2,847 likes</div>
-        <div class="ig-cap"><b>brand_official</b> 新作、入荷しました🤍 暮らしに寄り添う一本を。<span class="tag"> #丁寧な暮らし #新作コスメ</span></div>
+        <div class="ig-likes">いいね！2,847件</div>
+        <div class="ig-cap"><b>ブランド公式</b> 新作、入荷しました🤍 暮らしに寄り添う一本を。<span class="tag"> #丁寧な暮らし #新作コスメ</span></div>
         <div class="ig-badge">保存数 ×3.2</div>
       </div>
     </section>
 
-
-    <!-- 6 REPORT -->
-    <section class="slide bg-dark" data-theme="dark">
-      <span class="s-kicker s-anim d1">Monthly Report</span>
-      <h2 class="s-title s-anim d2" style="font-size:clamp(24px,7.2vw,32px);">数字を、<br/>“次の一手”に変える。</h2>
+    <!-- 5 REPORT -->
+    <section class="slide bg-white" data-theme="white">
+      <span class="s-kicker s-anim d1">月次レポート</span>
+      <h2 class="s-title s-anim d2" style="font-size:clamp(25px,7.4vw,33px);">数字を、<br/>“次の一手”に翻訳。</h2>
       <div class="report-frame s-anim d3">
-        <div class="report-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">tenmu.jp / monthly-report</span></div>
+        <div class="report-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="addr">tenmu.jp ／ 月次レポート</span></div>
         <img src="images/report-summary.jpg" alt="月次レポート（サンプル）" loading="lazy" />
       </div>
-      <p class="s-sub s-anim d4">独自ノウハウで「なぜ伸びたか／止まったか」を言語化。翌月の打ち手までご提示します。</p>
+      <p class="s-sub s-anim d4">「なぜ伸びた？」「なぜ止まった？」<br/>ぜんぶ、ことばにして返します。</p>
     </section>
 
-    <!-- 7 TRUST -->
-    <section class="slide bg-light light" data-theme="light">
-      <span class="s-kicker s-anim d1">Results</span>
+    <!-- 6 RESULTS -->
+    <section class="slide bg-blue" data-theme="blue">
+      <span class="s-kicker s-anim d1">これまでの実績</span>
       <div class="metrics-stack">
-        <div class="metric s-anim d2"><div class="mlabel-jp">支援社数</div><div class="mval">300<span class="u">社〜</span></div></div>
-        <div class="metric s-anim d3"><div class="mlabel-jp">総フォロワー獲得数</div><div class="mval">60<span class="u">万人</span></div></div>
-        <div class="metric s-anim d4"><div class="mlabel-jp">累計リーチ数</div><div class="mval">3<span class="u">億回</span></div></div>
+        <div class="metric s-anim d2"><div class="mlabel-jp">支援した会社</div><div class="mval">300<span class="u">社〜</span></div></div>
+        <div class="metric s-anim d3"><div class="mlabel-jp">増やしたフォロワー</div><div class="mval">60<span class="u">万人</span></div></div>
+        <div class="metric s-anim d4"><div class="mlabel-jp">届けた回数（リーチ）</div><div class="mval">3<span class="u">億回</span></div></div>
       </div>
-      <p class="trust-text s-anim d5">上場企業・医療機関・老舗ブランドから、<br/>のべ300社以上の運用実績。</p>
+      <p class="trust-text s-anim d5">上場企業から老舗ブランドまで、のべ300社。<br/>“伸ばしてきた”実績で、語ります。</p>
       <p class="s-note s-anim d5">※ 運用代行・コンサルティング・広告運用の累計</p>
     </section>
 
-    <!-- 8 REASONS -->
-    <section class="slide bg-darkteal" data-theme="dark">
-      <span class="s-kicker s-anim d1">Why Tenmu</span>
-      <h2 class="s-title s-anim d2">戦略から運用まで、<br/>ワンストップ。</h2>
+    <!-- 7 REASONS -->
+    <section class="slide bg-white" data-theme="white">
+      <span class="s-kicker s-anim d1">選ばれる理由</span>
+      <h2 class="s-title s-anim d2">戦略から運用まで、<br/>まるっと。</h2>
       <div class="reasons">
-        <div class="reason s-anim d3"><div class="rn">01</div><div><div class="rt">伸ばす</div><div class="rd">市場調査×最新トレンドの制作で、世界観を守り数字を伸ばす</div></div></div>
-        <div class="reason s-anim d4"><div class="rn">02</div><div><div class="rt">改善する</div><div class="rd">データ分析で「次の一手」を毎月アップデート</div></div></div>
-        <div class="reason s-anim d5"><div class="rn">03</div><div><div class="rt">外さない</div><div class="rd">チーム体制で属人化・ミスのリスクを最小化</div></div></div>
+        <div class="reason s-anim d3"><div class="rn">01</div><div><div class="rt">伸ばす</div><div class="rd">トレンドを、ブランドの言葉に翻訳して届ける</div></div></div>
+        <div class="reason s-anim d4"><div class="rn">02</div><div><div class="rt">整える</div><div class="rd">“なんとなく”を、勝てる戦略に組み直す</div></div></div>
+        <div class="reason s-anim d5"><div class="rn">03</div><div><div class="rt">外さない</div><div class="rd">チームで回すから、止まらない・ブレない</div></div></div>
       </div>
     </section>
 
-    <!-- 9 PRICING -->
-    <section class="slide bg-dark" data-theme="dark">
-      <span class="s-kicker s-anim d1">Pricing</span>
+    <!-- 8 PRICING -->
+    <section class="slide bg-white" data-theme="white">
+      <span class="s-kicker s-anim d1">料金</span>
       <div class="bigstat s-anim d2">月30<span class="u">万円〜</span></div>
-      <p class="s-sub s-anim d3">投稿数・撮影・リールなど、目的とご予算に合わせて自由に設計。</p>
-      <div class="s-highlight s-anim d4">まずは“無料診断”から。リスクはありません。</div>
+      <p class="s-sub s-anim d3">撮影もリールも、必要なぶんだけ。<br/>目的とご予算に合わせて組み立てます。</p>
+      <div class="s-highlight s-anim d4">まずは、タダで診断。<br/>（しつこい売り込みは、しません。）</div>
     </section>
 
-    <!-- 10 CTA -->
-    <section class="slide bg-cta" data-theme="dark">
+    <!-- 9 CTA -->
+    <section class="slide bg-cta" data-theme="blue">
       <div class="s-logo s-anim d1"><img src="images/tenmu-logo-white.png" alt="Tenmu" /></div>
-      <h2 class="s-title s-anim d2">今のアカウント、<br/>無料で診断します。</h2>
-      <p class="s-sub s-anim d3">課題と改善の方向性をまとめてお渡しします。</p>
+      <h2 class="s-title s-anim d2">まずは“アカウント<br/>健康診断”から。</h2>
+      <p class="s-sub s-anim d3">今の伸びしろ、こっそりお教えします。</p>
       <div class="cta-btns s-anim d4">
-        <a href="https://tenmu.jp/brand/contact" target="_blank" rel="noopener" class="cta-btn cta-primary">まずは相談してみる <span class="ar">→</span></a>
+        <a href="https://tenmu.jp/brand/contact" target="_blank" rel="noopener" class="cta-btn cta-primary">相談してみる <span class="ar">→</span></a>
         <a href="https://drive.google.com/file/d/11o0WymiQ3Q9UUkZ9NbDvorNNu5q6pX0J/view?usp=sharing" target="_blank" rel="noopener" class="cta-btn cta-ghost">サービス資料を見る <span class="ar">↗</span></a>
       </div>
     </section>
@@ -262,7 +247,7 @@ button{font-family:inherit;border:none;background:none;cursor:pointer;color:inhe
   function render(i){
     idx=Math.max(0,Math.min(last,i));
     slides.forEach((sl,j)=>sl.classList.toggle('active',j===idx));
-    story.setAttribute('data-theme', slides[idx].getAttribute('data-theme')||'dark');
+    story.setAttribute('data-theme', slides[idx].getAttribute('data-theme')||'blue');
     fills.forEach((f,j)=>{f.style.transform=j<=idx?'scaleX(1)':'scaleX(0)';});
     if(tapHint) tapHint.style.display=idx===0?'block':'none';
   }
