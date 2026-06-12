@@ -12,9 +12,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Tenmu｜インスタ運用代行</title>
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-665WKWCWQ9"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-665WKWCWQ9');</script>
 <style>
 :root{
   --blue:#0510e7; --white:#ffffff;
@@ -265,7 +262,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     story.setAttribute('data-theme', slides[idx].getAttribute('data-theme')||'blue');
     fills.forEach((f,j)=>{f.style.transform=j<=idx?'scaleX(1)':'scaleX(0)';});
     if(tapHint) tapHint.style.display=idx===0?'block':'none';
-    if(window.gtag) gtag('event','slide_view',{slide_index:idx, slide_total:slides.length, slide_name:(slides[idx].querySelector('.s-kicker')||{}).textContent||''});
+    (window.dataLayer=window.dataLayer||[]).push({event:'slide_view', slide_index:idx, slide_total:slides.length, slide_name:(slides[idx].querySelector('.s-kicker')||{}).textContent||''});
   }
   let lastNav=0;
   function canNav(){const t=Date.now();if(t-lastNav<160)return false;lastNav=t;return true;}
@@ -282,11 +279,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   });
   window.addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();next();}else if(e.key==='ArrowLeft'){e.preventDefault();prev();}});
   document.addEventListener('click',function(e){
-    if(!window.gtag) return;
     var a=e.target.closest('a'); if(!a) return;
-    var href=a.getAttribute('href')||'';
-    if(href.indexOf('brand/contact')>-1) gtag('event','cta_contact',{location:'lp2', slide_index:idx});
-    else if(href.indexOf('drive.google')>-1) gtag('event','cta_material',{location:'lp2', slide_index:idx});
+    var href=a.getAttribute('href')||''; var dl=window.dataLayer=window.dataLayer||[];
+    if(href.indexOf('brand/contact')>-1) dl.push({event:'cta_contact', location:'lp2', slide_index:idx});
+    else if(href.indexOf('drive.google')>-1) dl.push({event:'cta_material', location:'lp2', slide_index:idx});
   }, true);
   render(0);
 })();
